@@ -1,0 +1,3 @@
+Melhorar tela da cena Count, colocando o logo da amagames e o texto 
+powered by Taverna Interactive (utilizar nova UI da Unity).
+Gravar restante dos áudios. Remover bgAudioClip.

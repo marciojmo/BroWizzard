@@ -7,6 +7,8 @@ using UnityEngine.UI;
 [RequireComponent( typeof( AudioSource ) )]
 public class SelectionController : MonoBehaviour
 {
+	/** The message to display when sorting is over. */
+	private const string DEFAULT_SORTING_ENDED_MESSAGE = "O sorteio acabou!";
 
 	#region ENUMS
 	/** The states of this controller. */
@@ -93,7 +95,7 @@ public class SelectionController : MonoBehaviour
 
 		if ( available.Count == 0 )
 		{
-			msg = "Sorting is over";
+			msg = DEFAULT_SORTING_ENDED_MESSAGE;
 			msgClip = m_sortingIsOverAudioClip;
 		}
 		else
@@ -130,6 +132,7 @@ public class SelectionController : MonoBehaviour
 		{
 			m_wizzard.cast();
 			playSound( m_vortexAudioClip );
+			Handheld.Vibrate();
 			m_isVortexPressed = true;
 			m_vortexPressedTimestamp = Time.time;
 		}

@@ -7,7 +7,6 @@ public static class ScenesController
 	/** Maps each EScenes values to its corresponding scene name. */
 	private static Dictionary<EScenes, string> scenesNames = new Dictionary<EScenes, string>
 	{
-		{ EScenes.evSplash, "Splash" },
 		{ EScenes.evCount, "Count" },
 		{ EScenes.evSelect, "Select" },
 

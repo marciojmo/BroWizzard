@@ -1,65 +1,60 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class CountController : MonoBehaviour {
 
-	/** The number of members on the sort. */
-	private string m_nMembers = "";
-	/** A reference to the oK button. */
-	private bool m_okButton;
-	/** A flag indicating to display or not the error message. */
-	private bool m_displayError = false;
+	/** The default error message to display when input have invalid values. */
+	private const string DEFAULT_ERROR_MESSAGE = "Quantidade inválida";
+	/** The input data field. */
+	public InputField m_input;
+	/** The response text (If input was invalid). */
+	public Text m_txtResponse;
 
 
 
-	private void fixInput()
+	public void onOKPressed()
 	{
-		string formatted = "";
-		for ( int i = 0; i < m_nMembers.Length && i < 2; i++ )
-		{
-			char c = m_nMembers[i];
+		string nMembersTxt = m_input.text;
+		m_txtResponse.text = "";
 
-			if ( c >= '0' && c <= '9' )
-				formatted += c;
+		// Checks if input is valid.
+		Match match = Regex.Match( nMembersTxt, @"\d{1,2}" );
+		if ( match.Success )
+		{
+			int nMembers = int.Parse( nMembersTxt );
+			if ( nMembers <= 0 )
+			{
+				m_txtResponse.text = DEFAULT_ERROR_MESSAGE;
+				return;
+			}
+			// Calculates the counters to the houses
+			Persistence.sm_nDevelopers = nMembers;
+			Persistence.calculateHouseCounters();
+			// Loads next scene.
+			ScenesController.loadScene( ScenesController.EScenes.evSelect );
 		}
-		m_nMembers = formatted;
+		else
+			m_txtResponse.text = DEFAULT_ERROR_MESSAGE;
 	}
 
 
 
-	void Update()
+
+
+	void Awake()
 	{
-		fixInput();
-
-		// OK BUTTON PRESSED?
-		if( m_okButton )
+		if ( m_txtResponse == null )
 		{
-			fixInput();
-
-			if ( m_nMembers.Length > 0 && m_nMembers != "0" && m_nMembers != "00" )
-			{
-				Persistence.sm_nDevelopers = int.Parse( m_nMembers );
-				Persistence.calculateHouseCounters();
-				ScenesController.loadScene( ScenesController.EScenes.evSelect );
-			}
-			else
-			{
-				m_displayError = true;
-			}
+			Debug.LogError( string.Format( "Text not found on {0}", typeof( CountController ).Name ) );
+			Debug.Break();
+		}
+		if ( m_input == null )
+		{
+			Debug.LogError( string.Format( "InputField not found on {0}", typeof( CountController ).Name ) );
+			Debug.Break();
 		}
 	}
-
-
-
-	void OnGUI() {
-		GUI.Label( new Rect( 10, 10, 200, 20 ), "Quantos membros?" );
-		m_nMembers = GUI.TextField( new Rect(10, 40, 50, 20), m_nMembers, 25 );
-		m_okButton = GUI.Button( new Rect( 10, 70, 50, 20 ), "OK" );
-
-		if ( m_displayError )
-		{
-			GUI.contentColor = Color.red;
-			GUI.Label( new Rect( 70, 40, 200, 20 ), "Quantidade invalida!" );
-		}
-	}
+	
 }

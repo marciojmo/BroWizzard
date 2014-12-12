@@ -51,7 +51,6 @@
      <Compile Include="Assets\Scripts\Persistence.cs" />
      <Compile Include="Assets\Scripts\ScenesController.cs" />
      <Compile Include="Assets\Scripts\SelectionController.cs" />
-     <Compile Include="Assets\Scripts\SplashController.cs" />
      <Compile Include="Assets\Scripts\WizzardSpriteController.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
